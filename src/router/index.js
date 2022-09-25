@@ -8,6 +8,7 @@ import Index from '@/views/index'
 import Login from '@/views/login'
 import Register from '@/views/register'
 import Mypage from '@/views/mypage/mypage'
+import Map from '@/components/GoogleMap'
 
 
 Vue.use(VueRouter)
@@ -43,6 +44,11 @@ const routes = [
                 path: '/mypage', ///path của route
                 name: 'Mypage', // tên route
                 component: Mypage // component route sử dụng
+            },
+            {
+                path: '/map', ///path của route
+                name: 'map', // tên route
+                component: Map // component route sử dụng
             },
         ]
     },

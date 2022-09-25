@@ -20,7 +20,14 @@ Vue.config.productionTip = false
 import VueI18n from 'vue-i18n';
 import messages from '@/config/languages/message';
 import VueLocalStorage from 'vue-localstorage'
+import * as VueGoogleMaps from "vue2-google-maps";
 
+Vue.use(VueGoogleMaps, {
+  load: {
+    key: "AIzaSyAZrYWKuUTEqEjxAStinUpz-Q-4ZmsUTdU",
+    libraries: "places"
+  }
+});
 Vue.use(VueLocalStorage)
 Vue.use(VueI18n);
 
