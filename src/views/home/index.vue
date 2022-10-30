@@ -1,14 +1,19 @@
 <template>
   <div>
-    <Banner></Banner>
-    <section>
-      home - page
-    </section>
+    <Map></Map>
+    <Introduce></Introduce>
+    <Promotion></Promotion>
+    <Location_list></Location_list>
+    <Contract></Contract>
   </div>
 </template>
 
 <script>
-import Banner from "@/components/common/Banner.vue";
+import Map from "@/views/home/components/map.vue";
+import Introduce from "@/views/home/components/introduce.vue";
+import Promotion from "@/views/home/components/promotion.vue";
+import Location_list from "@/views/home/components/location_list.vue";
+import Contract from "@/views/home/components/contract.vue";
 export default {
   data() {
     return {
@@ -21,7 +26,13 @@ export default {
   },
   computed: {},
   methods: {},
-  components: { Banner },
+  components: { 
+    Map , 
+  Introduce, 
+  Promotion , 
+  Location_list , 
+  Contract 
+  },
 };
 </script>
 
