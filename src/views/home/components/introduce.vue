@@ -1,9 +1,15 @@
 <template>
   <section class="introduce">
-	<h1>Giới thiệu</h1>
-  <div class="text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis eos quos cum ipsam deserunt accusantium consequuntur fugiat accusamus illum fuga quisquam, adipisci, eligendi magnam delectus blanditiis porro labore reprehenderit? Ea facere numquam eaque porro doloremque modi recusandae quis repellat dolores sequi dicta corporis, inventore eum animi, saepe atque quia ut aliquid veritatis, provident cum possimus.
-
+  <h1>
+    GIỚI THIỆU
+  </h1>
+  <div class="Intro">
+    Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis eos quos cum ipsam deserunt accusantium consequuntur fugiat accusamus illum fuga quisquam, adipisci, eligendi magnam delectus blanditiis porro labore reprehenderit? Ea facere numquam eaque porro doloremque modi recusandae quis repellat dolores sequi dicta corporis, inventore eum animi, saepe atque quia ut aliquid veritatis, provident cum possimus.
   </div>
+  
+  <img class="image1" src="@/assets/banner1.png">
+  </img>
+
   </section>
 </template>
 
@@ -25,12 +31,20 @@ export default {
 </script>
 <style lang="scss" scoped>
 .introduce {
-	height: 50vh;
 	background-color: #ffffff;
 
 }
-.text {
+
+.Intro{
+  margin-left: 10px ;
+  margin-right: 10px;
+  margin-bottom: 50px;
+  font-size: 24px;
   color: black;
-  font-size: 18px;
+
 }
+.image1{
+  width: 80%;
+  margin: auto;
+  }
 </style>
