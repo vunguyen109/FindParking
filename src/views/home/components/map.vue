@@ -1,65 +1,41 @@
 <template>
-  <div class="map-wrap">
-    <a href="https://www.maptiler.com" class="watermark"><img
-        src="https://api.maptiler.com/resources/logo.svg" alt="MapTiler logo"/></a>
-    <div class="map" ref="mapContainer"></div>
-  </div>
+<div class="map">
+  <MglMap
+    :accessToken="accessToken"
+    :mapStyle.sync="mapStyle"
+  >
+    <MglNavigationControl position="top-right"/>
+    <MglGeolocateControl position="top-right" />
+  </MglMap>
+</div>
 </template>
 
 <script>
-import { Map } from 'maplibre-gl';
-import { shallowRef, onMounted, onUnmounted, markRaw } from 'vue';
+import { MglMap, MglNavigationControl, MglGeolocateControl } from "vue-mapbox";
 
 export default {
-  name: "Map",
-  setup () {
-    const mapContainer = shallowRef(null);
-    const map = shallowRef(null);
-
-    onMounted(() => {
-      const apiKey = 'GEnm2e5tMf4qwCZtnzmv';
-      //https://cloud.maptiler.com/account/keys
-      const initialState = { lng: 139.753, lat: 35.6844, zoom: 14 };
-
-      map.value = markRaw(new Map({
-        container: mapContainer.value,
-        style: `https://api.maptiler.com/maps/streets/style.json?key=${apiKey}`,
-        center: [initialState.lng, initialState.lat],
-        zoom: initialState.zoom
-      }));
-
-    }),
-    onUnmounted(() => {
-      map.value?.remove();
-    })
-
+  components: {
+    MglMap,
+    MglNavigationControl,
+    MglGeolocateControl,
+  },
+  data() {
     return {
-      map, mapContainer
+      accessToken:"pk.eyJ1IjoidnVuZ3V5ZW45OSIsImEiOiJjbDl3YWg0ZWMyamNqM3ZvdXYyOXVlNjh3In0.ymtgzvce8mLHH2uh22WC-Q",
+      mapStyle: "mapbox://styles/mapbox/streets-v11",
     };
-  }
+  },
 };
 </script>
 
-
-<style scoped>
-@import '~maplibre-gl/dist/maplibre-gl.css';
-
-.map-wrap {
-  position: relative;
-  width: 100%;
-  height: calc(100vh - 77px); /* calculate height of the screen minus the heading */
-}
+<style lang="scss" scoped>
 
 .map {
-  position: absolute;
   width: 100%;
-  height: 100%;
+  height: 80vh;
+  
 }
-
-.watermark {
-  position: absolute;
-  left: 10px;
-  bottom: 10px;
-  z-index: 999;
-}
+.mapboxgl-canvas {
+    position: unset;
+  }
 </style>
