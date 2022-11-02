@@ -4,14 +4,26 @@
     :accessToken="accessToken"
     :mapStyle.sync="mapStyle"
   >
-    <MglNavigationControl position="top-right"/>
-    <MglGeolocateControl position="top-right" />
+    <MglAttributionControl  />
+      <MglFullscreenControl  position="top-left" />
+      <MglAttributionControl position="top-left" />
+      <MglNavigationControl position="top-right" />
+      <MglGeolocateControl position="top-right" />
+      <MglScaleControl />
   </MglMap>
 </div>
 </template>
 
 <script>
-import { MglMap, MglNavigationControl, MglGeolocateControl } from "vue-mapbox";
+import {
+  MglMap,
+  MglAttributionControl,
+  MglNavigationControl,
+  MglGeolocateControl,
+  MglFullscreenControl,
+  MglScaleControl
+} from "vue-mapbox";
+import 'mapbox-gl/dist/mapbox-gl.css';
 
 export default {
   components: {
@@ -35,7 +47,4 @@ export default {
   height: 80vh;
   
 }
-.mapboxgl-canvas {
-    position: unset;
-  }
 </style>
