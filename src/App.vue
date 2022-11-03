@@ -12,7 +12,10 @@
 	-moz-osx-font-smoothing: grayscale; 	
 	color: #2c3e50;
 }
-
+.mapboxgl-canvas {
+	position: unset !important;
+	height: 80vh !important;
+}
 
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,

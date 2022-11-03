@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import Map from "@/views/home/components/map.vue";
+import Map from "@/views/home/components/map3.vue";
 import Introduce from "@/views/home/components/introduce.vue";
 import Promotion from "@/views/home/components/promotion.vue";
 import Location_list from "@/views/home/components/location_list.vue";
