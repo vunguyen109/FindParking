@@ -10,6 +10,7 @@ const ConstPlugin = {
                 coordinates: [108.2096, 16.059945],
                 address: "xxx-yyy-zzzz",
                 introduce: "xxxxxxxxxxxxxxxxxx",
+                slot: 5,
               },
               {
                 id : "002",
@@ -17,6 +18,7 @@ const ConstPlugin = {
                 coordinates: [107.2096, 16.059945],
                 address: "xxx-yyy-zzzz",
                 introduce: "xxxxxxxxxxxxxxxxxx",
+                slot: 5,
               },
               {
                 id : "003",
@@ -24,6 +26,7 @@ const ConstPlugin = {
                 coordinates: [106.2096, 16.059945],
                 address: "xxx-yyy-zzzz",
                 introduce: "xxxxxxxxxxxxxxxxxx",
+                slot: 5,
               },
               {
                 id : "004",
@@ -31,6 +34,7 @@ const ConstPlugin = {
                 coordinates: [105.2096, 16.059945],
                 address: "xxx-yyy-zzzz",
                 introduce: "xxxxxxxxxxxxxxxxxx",
+                slot: 5,
               },
               {
                 id : "005",
@@ -38,6 +42,7 @@ const ConstPlugin = {
                 coordinates: [104.2096, 16.059945],
                 address: "xxx-yyy-zzzz",
                 introduce: "xxxxxxxxxxxxxxxxxx",
+                slot: 5,
               },
               {
                 id : "006",
@@ -45,6 +50,7 @@ const ConstPlugin = {
                 coordinates: [103.2096, 16.059945],
                 address: "xxx-yyy-zzzz",
                 introduce: "xxxxxxxxxxxxxxxxxx",
+                slot: 5,
               },
               {
                 id : "007",
@@ -52,6 +58,7 @@ const ConstPlugin = {
                 coordinates: [102.2096, 16.059945],
                 address: "xxx-yyy-zzzz",
                 introduce: "xxxxxxxxxxxxxxxxxx",
+                slot: 5,
               },
               {
                 id : "008",
@@ -59,6 +66,7 @@ const ConstPlugin = {
                 coordinates: [101.2096, 16.059945],
                 address: "xxx-yyy-zzzz",
                 introduce: "xxxxxxxxxxxxxxxxxx",
+                slot: 5,
               },
               {
                 id : "009",
@@ -66,6 +74,7 @@ const ConstPlugin = {
                 coordinates: [100.2096, 16.059945],
                 address: "xxx-yyy-zzzz",
                 introduce: "xxxxxxxxxxxxxxxxxx",
+                slot: 5,
               },
          ]
       };

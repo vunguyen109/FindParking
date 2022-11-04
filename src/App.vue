@@ -16,6 +16,17 @@
 	position: unset !important;
 	height: 80vh !important;
 }
+.marker {
+	top: -25px !important;
+  width: 40px;
+    height: 54px;
+    display: flex;
+    justify-content: center;
+    font-size: 16px;
+    font-weight: 600;
+    padding-top: 10px;
+	color: #1A6300;
+}
 
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,

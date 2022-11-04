@@ -3,7 +3,7 @@ import router from '@/router/index'
 import Vue from 'vue';
 function apiAxios(method, url, params) {
 
-    const uri = 'https://630ecf7e379256341881c64d.mockapi.io/api/'
+    const uri = ''
 
     return new Promise((resolve, reject) => {
         axios({

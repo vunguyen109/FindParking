@@ -45,6 +45,10 @@ import mapboxgl from "mapbox-gl";
 import axios from "axios";
 import MapboxGeocoder from "@mapbox/mapbox-gl-geocoder";
 import "@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css";
+import MapboxDirections from '@mapbox/mapbox-gl-directions/dist/mapbox-gl-directions'
+
+import 'mapbox-gl/dist/mapbox-gl.css' // Updating node module will keep css up to date.
+import '@mapbox/mapbox-gl-directions/dist/mapbox-gl-directions.css' // Updating node module will keep css up to date.
 import "mapbox-gl/dist/mapbox-gl.css";
 
 export default {
@@ -94,14 +98,27 @@ export default {
 
         geocoder.on("result", (e) => {
           const marker = new mapboxgl.Marker({
-            draggable: true,
-            color: "#D80739",
+            draggable: false,
+            color: "#1A6300",
           })
             .setLngLat(e.result.center)
             .addTo(this.map);
           this.center = e.result.center;
           //   marker.on("dragend", (e) => {//   });
         });
+
+        //
+
+        const directions = new MapboxDirections({
+            accessToken: this.access_token,
+            unit: 'metric',
+            profile: 'mapbox/driving-traffic',
+            annotations:'congestion',
+            voiceLocale:'vi',
+            language:'vi',
+        });
+        this.map.addControl(directions, 'top-left');
+
       } catch (err) {
         console.log("map error", err);
       }
@@ -109,11 +126,12 @@ export default {
     async getLocation() {
       try {
         this.loading = true;
-        const response = await axios.get(
+        const response = await this.$api.get(
           `https://api.mapbox.com/geocoding/v5/mapbox.places/${this.center[0]},${this.center[1]}.json?access_token=${this.access_token}`
         );
         this.loading = false;
-        this.location = response.data.features[0].place_name;
+        console.log(response);
+        this.location = response.features[0].place_name;
       } catch (err) {
         this.loading = false;
         console.log(err);
@@ -127,15 +145,32 @@ export default {
       return;
     },
     addMarker() {
+      // for(var item of this.list_location){
+      //   console.log(item.coordinates);
+      //   const marker = new mapboxgl.Marker({
+      //       draggable: false,
+      //       color: "#1A6300",
+      //     })
+      //       .setLngLat(item.coordinates)
+      //       .addTo(this.map);
+      // }
       for(var item of this.list_location){
-        console.log(item.coordinates);
-        const marker = new mapboxgl.Marker({
-            draggable: true,
-            color: "#D80739",
-          })
-            .setLngLat(item.coordinates)
-            .addTo(this.map);
-      }
+        // Create a DOM element for each marker.
+        const el = document.createElement('div');
+        el.style.backgroundImage = 'url(https://i.ibb.co/pQm0f6L/Group-51.png)';
+        el.className = 'marker';
+        el.textContent = item.slot;
+        el.style.backgroundSize = '100%';
+        
+        el.addEventListener('click', () => {
+        window.alert(item.name);
+        });
+        
+        // Add markers to the map.
+        new mapboxgl.Marker(el)
+        .setLngLat(item.coordinates)
+        .addTo(this.map);
+        }
     },
   },
 };
@@ -146,6 +181,7 @@ export default {
   display: flex;
   justify-content: space-around;
 }
+
 .map-holder {
   width: 60%;
   height: 80vh;
