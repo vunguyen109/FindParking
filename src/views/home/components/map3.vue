@@ -6,37 +6,23 @@
       <div class="map-holder">
         <div id="map"></div>
       </div>
-
-      <!-- <div class="dislpay-arena">
-        <div class="coordinates-header">
-          <h3>Current Coordinates</h3>
-          <p>Latitude: {{ center[0] }}</p>
-          <p>Longitude: {{ center[1] }}</p>
-        </div>
-        <div class="coordinates-header">
-          <h3>Current Location</h3>
-          <div class="form-group">
-            <input
-              type="text"
-              class="location-control"
-              :value="location"
-              readonly
-            />
-            <button type="button" class="copy-btn" @click="copyLocation">
-              copy
-            </button>
+      <div id="infomation"  >
+        <div class="info">
+          <div @click="close"><b-icon icon="x-lg"></b-icon></div>
+          <div id="content_image"></div>
+          <div class="content_info">
+            <div id="content_name"></div>
+            <div id="content_rate"></div>
+            <div id="content_address"></div>
           </div>
-          <button
-            type="button"
-            :disabled="loading"
-            :class="{ disabled: loading }"
-            class="location-btn"
-            @click="getLocation"
-          >
-            Get Location
-          </button>
         </div>
-      </div> -->
+        <div id="content_introduce"></div>
+        <div class="owner">
+          <div id="owner_image"></div>
+          <div id="owner_name">owner_name</div>
+        </div>
+        <div class="reviews"></div>
+      </div>
     </div>
   </div>
 </template>
@@ -58,6 +44,11 @@ export default {
     MglMap,
     MglMarker,
   },
+  props: {
+    mapLoad: {
+      load: false,
+    },
+  },
   data() {
     return {
       loading: false,
@@ -69,13 +60,14 @@ export default {
       list_location: "",
       coordinatesStart: [108.2096, 16.059945],
       coordinatesEnd: [108.3096, 16.059945],
+      load: 0,
+      showInfo: false,
     };
   },
 
   mounted() {
-    this.createMap();
     this.list_location = this.$CONST.LOCATION_DATA;
-    this.addMarker();
+    this.createMap();
   },
   watch: {
     coordinatesStart: function () {},
@@ -88,7 +80,7 @@ export default {
           container: "map",
           style: "mapbox://styles/mapbox/streets-v11",
           center: this.center,
-          zoom: 11,
+          zoom: 12,
         });
 
         //
@@ -113,19 +105,56 @@ export default {
           annotations: "congestion",
           voiceLocale: "vi",
           language: "vi",
+          alternatives: true,
+          continue_straight: true,
+          interactive: false,
         });
 
         this.map.addControl(directions, "top-left");
+
         const locate = new mapboxgl.GeolocateControl({
-          trackUserLocation: false,
-          showUserHeading: true,
+          // trackUserLocation: true,
+          // showUserHeading: true,
         });
 
         // this.map.addControl(locate, "bottom-right");
+        // add marker
 
+        for (var item of this.list_location) {
+          // Create a DOM element for each marker.
+          const el = document.createElement("div");
+          el.style.backgroundImage =
+            "url(https://i.ibb.co/pQm0f6L/Group-51.png)";
+          el.className = "marker";
+          el.textContent = item.slot;
+          el.style.backgroundSize = "100%";
+          el.nodeValue = item.name;
+          (function (_item,_map,_showInfo) {
+            el.addEventListener("click", function () {
+              // Fly the map to the location.
+            console.log(_map);
+            _map.flyTo({
+              center: _item.coordinates,
+              speed: 0.5,
+              zoom: 15,
+            });
+            let styles = `display: block `;
+            document.getElementById("infomation").style = styles;
+            document.getElementById("content_image").style = 'background-image: url("'+ _item.image +'");';
+            document.getElementById("content_name").innerHTML = _item.name;
+            document.getElementById("content_address").innerHTML = _item.address;
+            document.getElementById("content_introduce").innerHTML = _item.introduce;
+            
+            // Return the location of the ISS as GeoJSON.
+              // directions.setDestination(_item.coordinates); // can be address
+            });
+          })(item,this.map,this.showInfo);
+
+          // Add markers to the map.
+          new mapboxgl.Marker(el).setLngLat(item.coordinates).addTo(this.map);
+        }
         this.map.on("load", async () => {
           // locate.trigger();
-          directions.setDestination([108.2086, 16.059945]); // can be address
           this.map.loadImage(
             "https://i.ibb.co/bbPzBjy/car-location.png",
             (error, image) => {
@@ -150,43 +179,60 @@ export default {
               "icon-image": "car-location", // reference the image
               "icon-size": 0.25,
             },
-            setPaintProperty:('my-layer', 'fill-color', '#faafee')
           });
 
           // Update the source from the API every 2 seconds.
           const updateSource = setInterval(async () => {
             const geojson = await getLocation(updateSource);
             this.map.getSource("iss").setData(geojson);
+            if (!this.mapLoad.load) {
+              this.mapLoad.load = true;
+              this.$emit("checkLoad", this.mapLoad.load);
+            }
           }, 1000);
 
           async function getLocation(updateSource) {
             // Make a GET request to the API and return the location of the ISS.
-            let latitude;
-            let longitude;
+            if (navigator.geolocation) {
+              var id, target, options;
 
-            const options = {
-              enableHighAccuracy: true,
-              timeout: 0,
-              maximumAge: 0,
-            };
+              function success(pos) {
+                var crd = pos.coords;
+                localStorage.setItem("latitude", crd.latitude);
+                localStorage.setItem("longitude", crd.longitude);
+                directions.setOrigin([
+                  localStorage.getItem("longitude"),
+                  localStorage.getItem("latitude"),
+                ]);
+                if (
+                  target.latitude === crd.latitude &&
+                  target.longitude === crd.longitude
+                ) {
+                  console.log("Congratulations, you reached the target");
+                  navigator.geolocation.clearWatch(id);
+                }
+              }
 
-            function success(pos) {
-              const crd = pos.coords;
-              localStorage.setItem("latitude", crd.latitude);
-              localStorage.setItem("longitude", crd.longitude);
-              directions.setOrigin([localStorage.getItem("longitude"),localStorage.getItem("latitude")]);
+              function error(err) {
+                console.warn("ERROR(" + err.code + "): " + err.message);
+              }
+
+              target = {
+                latitude: 0,
+                longitude: 0,
+              };
+
+              options = {
+                enableHighAccuracy: false,
+                timeout: 5000,
+                maximumAge: 0,
+              };
+
+              id = navigator.geolocation.watchPosition(success, error, options);
+            } else {
+              alert("can't get location");
             }
 
-            function error(err) {
-              console.warn(`ERROR(${err.code}): ${err.message}`);
-            }
-            navigator.geolocation.getCurrentPosition(success, error, options);
-            // Fly the map to the location.
-            // this.map.flyTo({
-            //   center: [longitude, latitude],
-            //   speed: 0.5,
-            // });
-            // Return the location of the ISS as GeoJSON.
             return {
               type: "FeatureCollection",
               features: [
@@ -204,7 +250,6 @@ export default {
             };
           }
         });
-
         geocoder.on("result", (e) => {
           const marker = new mapboxgl.Marker({
             draggable: false,
@@ -220,65 +265,8 @@ export default {
         console.log("map error", err);
       }
     },
-    // async getLocation() {
-    //   try {
-    //     this.loading = true;
-    //     const response = await this.$api.get(
-    //       `https://api.mapbox.com/geocoding/v5/mapbox.places/${this.center[0]},${this.center[1]}.json?access_token=${this.access_token}`
-    //     );
-    //     this.loading = false;
-    //     console.log(response);
-    //     this.location = response.features[0].place_name;
-    //   } catch (err) {
-    //     this.loading = false;
-    //     console.log(err);
-    //   }
-    // },
-    // copyLocation() {
-    //   if (this.location) {
-    //     navigator.clipboard.writeText(this.location);
-    //     alert("Location Copied");
-    //   }
-    //   return;
-    // },
-    getLocation() {
-      const options = {
-        enableHighAccuracy: true,
-        timeout: 1000,
-        maximumAge: 0,
-      };
-
-      function success(pos) {
-        const crd = pos.coords;
-        this.center = [crd.latitude, crd.longitude];
-        console.log("Your current position is:");
-        console.log(`Latitude : ${crd.latitude}`);
-        console.log(`Longitude: ${crd.longitude}`);
-        console.log(`More or less ${crd.accuracy} meters.`);
-      }
-
-      function error(err) {
-        console.warn(`ERROR(${err.code}): ${err.message}`);
-      }
-
-      navigator.geolocation.getCurrentPosition(success, error, options);
-    },
-    addMarker() {
-      for (var item of this.list_location) {
-        // Create a DOM element for each marker.
-        const el = document.createElement("div");
-        el.style.backgroundImage = "url(https://i.ibb.co/pQm0f6L/Group-51.png)";
-        el.className = "marker";
-        el.textContent = item.slot;
-        el.style.backgroundSize = "100%";
-
-        el.addEventListener("click", () => {
-          window.alert(item.name);
-        });
-
-        // Add markers to the map.
-        new mapboxgl.Marker(el).setLngLat(item.coordinates).addTo(this.map);
-      }
+    close() {
+      document.getElementById("infomation").style = `display: none`;
     },
   },
 };
@@ -302,5 +290,28 @@ export default {
 }
 .mapboxgl-ctrl-geocoder {
   min-width: 100%;
+}
+.mapbox-directions-route-summary + .mapbox-directions-instructions {
+  margin: 3px;
+  overflow: auto;
+}
+#infomation {
+  width: 80%;
+  height: 50vh;
+  padding: 30px;
+  position: absolute;
+  bottom: -10%;
+  background-color: rgb(255, 255, 255);
+  display: none;
+
+}
+.info {
+  display: flex;
+}
+#content_image {
+  width: 50%;
+  height: inherit;
+  background-repeat: no-repeat; 
+  background-size: cover;
 }
 </style>

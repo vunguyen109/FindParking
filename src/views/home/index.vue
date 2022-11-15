@@ -1,6 +1,7 @@
 <template>
   <div>
-    <Map></Map>
+    <Map :mapLoad="loadMap" @checkLoad="forceRerender" :key="componentKey"></Map>
+    <button @click="forceRerender">click</button>
     <Introduce></Introduce>
     <Promotion></Promotion>
     <Location_list></Location_list>
@@ -21,11 +22,23 @@ export default {
       checkColor2: true,
       checkColor3: true,
       test: "abc",
-      ttt: 1
+      ttt: 1,
+      loadMap: {
+        load : false ,
+      },
+      componentKey:0,
     };
   },
   computed: {},
-  methods: {},
+  created() {
+  },
+  methods: {
+    forceRerender(value) {
+      this.loadMap.load = value;
+      console.log("check");
+      this.componentKey += 1;
+    }
+  },
   components: { 
     Map , 
   Introduce, 

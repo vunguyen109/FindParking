@@ -12,6 +12,15 @@
 	-moz-osx-font-smoothing: grayscale; 	
 	color: #2c3e50;
 }
+.mapbox-directions-route-summary + .mapbox-directions-instructions {
+    margin: 3px;
+}
+.mapbox-directions-component-keyline {
+    display: none;
+}
+.mapbox-directions-profile {
+    display: block;
+}
 .mapboxgl-canvas {
 	position: unset !important;
 	height: 80vh !important;
