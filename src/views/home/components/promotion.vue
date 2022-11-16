@@ -1,6 +1,6 @@
 <template>
   <section class="promotion">
-	<h1>
+	<h1 class="TD">
     KHUYẾN MÃI
   </h1>
   <div class="KM">
@@ -57,12 +57,12 @@ export default {
 </script>
 <style lang="scss" scoped>
 .promotion {
-	height: 35vh;
+	height: 30vh;
 //	background-color: #00B661;
 
 }
 .text{
-  
+
   font-size: 15px;
   color:black;
   display: flex;
@@ -74,9 +74,11 @@ export default {
   flex-direction: row;
   align-items: stretch;
   justify-content: center;
-
+  justify-content: space-around;
   column-gap: 10px;
   background-color: white;
+  font-family: 'Times New Roman', Times, serif;
+  margin-top: 10px;
 }
 .linethrough{
   text-decoration-line: line-through;
@@ -87,7 +89,7 @@ export default {
   border-color: #00B661;
   border-radius: 10px;
   background: none;
-  
+  margin-left: 45% ;
 }
 .colortxt{
   color:#00B661;
@@ -101,6 +103,11 @@ export default {
   border-color: white;
   border-radius: 10px;
   background: #00B661;
-  
+  align-items: center;
 }
+.TD{
+  font-family:'Times New Roman', Times, serif;
+  text-align: center;
+  margin-top: 5px;
+  }
 </style>
