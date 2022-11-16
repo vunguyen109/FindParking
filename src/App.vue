@@ -5,13 +5,16 @@
 </template>
 
 <style lang="scss">
+@import url('https://fonts.googleapis.com/css?family=Roboto+Condensed');
+
+html, body {
+  font-family: 'Roboto', sans-serif;
+}
 
 #app {
-	font-family: 'ABeeZee';
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale; 	
-	color: #2c3e50;
+  font-family: 'Roboto', sans-serif;
 }
+
 .mapbox-directions-route-summary + .mapbox-directions-instructions {
     margin: 3px;
 }
@@ -35,6 +38,7 @@
     font-weight: 600;
     padding-top: 10px;
 	color: #1A6300;
+	background-repeat: no-repeat;
 }
 
 html, body, div, span, applet, object, iframe,

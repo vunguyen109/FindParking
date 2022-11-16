@@ -2,16 +2,24 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from '@/store/index'
-import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
-import 'bootstrap/dist/css/bootstrap.css'
+
 import 'bootstrap-vue/dist/bootstrap-vue.css'
+import { BootstrapVue, BIcon, BIconArrowUp, BIconArrowDown } from 'bootstrap-vue'
+import { BootstrapVueIcons } from 'bootstrap-vue'
+import 'bootstrap-vue/dist/bootstrap-vue-icons.min.css'
+
+Vue.use(BootstrapVueIcons)
+Vue.use(BootstrapVue)
+Vue.component('BIcon', BIcon)
+Vue.component('BIconArrowUp', BIconArrowUp)
+Vue.component('BIconArrowDown', BIconArrowDown)
+
 import Axios from "axios";
 import api from "@/utils/axios";
 
 Vue.prototype.$axios = Axios;
 
 Vue.prototype.$api = api;
-Vue.use(BootstrapVue)
 import ConstPlugin from './components/util/const_plugin'
 
 Vue.config.productionTip = false

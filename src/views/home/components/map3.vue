@@ -8,12 +8,13 @@
       </div>
       <div id="infomation"  >
         <div class="info">
-          <div @click="close"><b-icon icon="x-lg"></b-icon></div>
+          <div @click="close" ><b-icon class="btnClose" icon="x-lg"></b-icon></div>
           <div id="content_image"></div>
           <div class="content_info">
             <div id="content_name"></div>
             <div id="content_rate"></div>
             <div id="content_address"></div>
+            <button @click="direct">chỉ đường</button>
           </div>
         </div>
         <div id="content_introduce"></div>
@@ -57,9 +58,9 @@ export default {
         "pk.eyJ1IjoidnVuZ3V5ZW45OSIsImEiOiJjbDl3YWg0ZWMyamNqM3ZvdXYyOXVlNjh3In0.ymtgzvce8mLHH2uh22WC-Q",
       center: [108.2096, 16.059945],
       map: {},
+      directions: {},
       list_location: "",
-      coordinatesStart: [108.2096, 16.059945],
-      coordinatesEnd: [108.3096, 16.059945],
+      coordinates: [108.2096, 16.059945],
       load: 0,
       showInfo: false,
     };
@@ -68,9 +69,6 @@ export default {
   mounted() {
     this.list_location = this.$CONST.LOCATION_DATA;
     this.createMap();
-  },
-  watch: {
-    coordinatesStart: function () {},
   },
   methods: {
     async createMap() {
@@ -98,7 +96,7 @@ export default {
         const nav = new mapboxgl.NavigationControl();
         this.map.addControl(nav, "bottom-right");
 
-        const directions = new MapboxDirections({
+        this.directions  = new MapboxDirections({
           accessToken: this.access_token,
           unit: "metric",
           profile: "mapbox/driving-traffic",
@@ -110,7 +108,7 @@ export default {
           interactive: false,
         });
 
-        this.map.addControl(directions, "top-left");
+        this.map.addControl(this.directions, "top-left");
 
         const locate = new mapboxgl.GeolocateControl({
           // trackUserLocation: true,
@@ -134,7 +132,7 @@ export default {
               // Fly the map to the location.
             console.log(_map);
             _map.flyTo({
-              center: _item.coordinates,
+              center: [_item.coordinates[0],_item.coordinates[1]-0.003],
               speed: 0.5,
               zoom: 15,
             });
@@ -144,7 +142,7 @@ export default {
             document.getElementById("content_name").innerHTML = _item.name;
             document.getElementById("content_address").innerHTML = _item.address;
             document.getElementById("content_introduce").innerHTML = _item.introduce;
-            
+            localStorage.setItem("Destination",_item.coordinates);
             // Return the location of the ISS as GeoJSON.
               // directions.setDestination(_item.coordinates); // can be address
             });
@@ -185,6 +183,10 @@ export default {
           const updateSource = setInterval(async () => {
             const geojson = await getLocation(updateSource);
             this.map.getSource("iss").setData(geojson);
+            this.directions.setOrigin([
+                  localStorage.getItem("longitude"),
+                  localStorage.getItem("latitude"),
+                ]);
             if (!this.mapLoad.load) {
               this.mapLoad.load = true;
               this.$emit("checkLoad", this.mapLoad.load);
@@ -200,10 +202,7 @@ export default {
                 var crd = pos.coords;
                 localStorage.setItem("latitude", crd.latitude);
                 localStorage.setItem("longitude", crd.longitude);
-                directions.setOrigin([
-                  localStorage.getItem("longitude"),
-                  localStorage.getItem("latitude"),
-                ]);
+                
                 if (
                   target.latitude === crd.latitude &&
                   target.longitude === crd.longitude
@@ -268,6 +267,16 @@ export default {
     close() {
       document.getElementById("infomation").style = `display: none`;
     },
+    direct() {
+      this.directions.setDestination(localStorage.getItem("Destination"));
+      this.map.flyTo({
+              center: [localStorage.getItem("longitude"),
+                      localStorage.getItem("latitude")],
+              speed: 0.5,
+              zoom: 15,
+            });
+      this.close();
+    }
   },
 };
 </script>
@@ -300,18 +309,33 @@ export default {
   height: 50vh;
   padding: 30px;
   position: absolute;
+  z-index: 2;
   bottom: -10%;
   background-color: rgb(255, 255, 255);
   display: none;
+  border-radius: 5px;
 
 }
 .info {
   display: flex;
 }
 #content_image {
-  width: 50%;
-  height: inherit;
-  background-repeat: no-repeat; 
-  background-size: cover;
+      width: 50%;
+    height: 200px;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    margin-right: 30px;
+    border-radius: 5px;
+}
+.btnClose {
+      position: absolute;
+    right: 15px;
+    top: 15px;
+    cursor: pointer;
+}
+#content_name {
+  font-size: 24px;
+    font-variant: all-petite-caps;
 }
 </style>
