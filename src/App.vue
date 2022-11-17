@@ -85,4 +85,18 @@ table {
 	border-collapse: collapse;
 	border-spacing: 0;
 }
+@media screen and (max-width: 500px) {
+  .mapboxgl-ctrl-top-left {
+    top: auto !important;
+    left: 0;
+    bottom: 0;
+}
+.mapboxgl-ctrl-directions {
+    width: 95% !important;
+    max-width: unset !important;
+}
+.mapbox-directions-steps {
+    height: 200px;
+}
+}
 </style>

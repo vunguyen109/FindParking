@@ -3,16 +3,16 @@ import App from './App.vue'
 import router from './router'
 import store from '@/store/index'
 
-import 'bootstrap-vue/dist/bootstrap-vue.css'
-import { BootstrapVue, BIcon, BIconArrowUp, BIconArrowDown } from 'bootstrap-vue'
-import { BootstrapVueIcons } from 'bootstrap-vue'
-import 'bootstrap-vue/dist/bootstrap-vue-icons.min.css'
+import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
 
-Vue.use(BootstrapVueIcons)
+// Import Bootstrap and BootstrapVue CSS files (order is important)
+import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap-vue/dist/bootstrap-vue.css'
+
+// Make BootstrapVue available throughout your project
 Vue.use(BootstrapVue)
-Vue.component('BIcon', BIcon)
-Vue.component('BIconArrowUp', BIconArrowUp)
-Vue.component('BIconArrowDown', BIconArrowDown)
+// Optionally install the BootstrapVue icon components plugin
+Vue.use(IconsPlugin)
 
 import Axios from "axios";
 import api from "@/utils/axios";

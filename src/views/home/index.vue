@@ -1,7 +1,6 @@
 <template>
   <div>
     <Map :mapLoad="loadMap" @checkLoad="forceRerender" :key="componentKey"></Map>
-    <button @click="forceRerender">click</button>
     <Introduce></Introduce>
     <Promotion></Promotion>
     <Location_list></Location_list>

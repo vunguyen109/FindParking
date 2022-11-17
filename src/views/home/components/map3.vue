@@ -1,6 +1,6 @@
 <template>
   <div class="main">
-    <div id="geocoder" class="geocoder"></div>
+    <!-- <div id="geocoder" class="geocoder"></div> -->
     <div class="flex">
       <!-- Map Display here -->
       <div class="map-holder">
@@ -12,9 +12,9 @@
           <div id="content_image"></div>
           <div class="content_info">
             <div id="content_name"></div>
-            <div id="content_rate"></div>
+            <div id="content_rate">⭐⭐⭐⭐⭐</div>
             <div id="content_address"></div>
-            <button @click="direct">chỉ đường</button>
+            <b-button @click="direct" variant="success">chỉ đường</b-button>
           </div>
         </div>
         <div id="content_introduce"></div>
@@ -89,12 +89,12 @@ export default {
           marker: false,
         });
 
-        document
-          .getElementById("geocoder")
-          .appendChild(geocoder.onAdd(this.map));
+        // document
+        //   .getElementById("geocoder")
+        //   .appendChild(geocoder.onAdd(this.map));
 
         const nav = new mapboxgl.NavigationControl();
-        this.map.addControl(nav, "bottom-right");
+        this.map.addControl(nav, "top-right");
 
         this.directions  = new MapboxDirections({
           accessToken: this.access_token,
@@ -127,7 +127,7 @@ export default {
           el.textContent = item.slot;
           el.style.backgroundSize = "100%";
           el.nodeValue = item.name;
-          (function (_item,_map,_showInfo) {
+          (function (_item,_map) {
             el.addEventListener("click", function () {
               // Fly the map to the location.
             console.log(_map);
@@ -146,7 +146,7 @@ export default {
             // Return the location of the ISS as GeoJSON.
               // directions.setDestination(_item.coordinates); // can be address
             });
-          })(item,this.map,this.showInfo);
+          })(item,this.map);
 
           // Add markers to the map.
           new mapboxgl.Marker(el).setLngLat(item.coordinates).addTo(this.map);
@@ -268,7 +268,7 @@ export default {
       document.getElementById("infomation").style = `display: none`;
     },
     direct() {
-      this.directions.setDestination(localStorage.getItem("Destination"));
+      this.directions.setDestination(localStorage.getItem("Destination").split(','));
       this.map.flyTo({
               center: [localStorage.getItem("longitude"),
                       localStorage.getItem("latitude")],
@@ -310,7 +310,7 @@ export default {
   padding: 30px;
   position: absolute;
   z-index: 2;
-  bottom: -10%;
+  bottom: 10vh;
   background-color: rgb(255, 255, 255);
   display: none;
   border-radius: 5px;
@@ -334,8 +334,25 @@ export default {
     top: 15px;
     cursor: pointer;
 }
+.content_info {
+  width: 50%;
+  display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
 #content_name {
   font-size: 24px;
     font-variant: all-petite-caps;
 }
+@media screen and (max-width: 500px) {
+  #content_image {
+    height: 150px;
+  }
+  .mapboxgl-ctrl-top-left {
+    top: auto;
+    left: 0;
+    bottom: 0;
+}
+}
+
 </style>
