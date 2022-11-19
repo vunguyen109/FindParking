@@ -9,7 +9,7 @@
       <div id="infomation"  >
         <div class="info">
           <div @click="close" ><b-icon class="btnClose" icon="x-lg"></b-icon></div>
-          <div id="content_image"></div>
+          <img id="content_image"></img>
           <div class="content_info">
             <div id="content_name"></div>
             <div id="content_rate">⭐⭐⭐⭐⭐</div>
@@ -25,6 +25,7 @@
         <div class="reviews"></div>
       </div>
     </div>
+    <Loading :showLoading="isLoading" />
   </div>
 </template>
 
@@ -39,11 +40,13 @@ import MapboxDirections from "@mapbox/mapbox-gl-directions/dist/mapbox-gl-direct
 import "mapbox-gl/dist/mapbox-gl.css"; // Updating node module will keep css up to date.
 import "@mapbox/mapbox-gl-directions/dist/mapbox-gl-directions.css"; // Updating node module will keep css up to date.
 import "mapbox-gl/dist/mapbox-gl.css";
+import Loading from "@/components/common/Loading"
 
 export default {
   components: {
     MglMap,
     MglMarker,
+    Loading,
   },
   props: {
     mapLoad: {
@@ -63,23 +66,72 @@ export default {
       coordinates: [108.2096, 16.059945],
       load: 0,
       showInfo: false,
+      isLoading: false
     };
   },
 
   mounted() {
-    this.list_location = this.$CONST.LOCATION_DATA;
-    this.callApi();
+    // this.list_location = this.$CONST.LOCATION_DATA;
     this.createMap();
+    this.callApi();
+  },
+  created() {
   },
   methods: {
-    async callApi() {
-      await this.$api.get("parkings").then((response) => {
-        console.log(response);
-        // this.list_location = response;
+    callApi() {
+      this.$api.get("parkings").then((response) => {
+        // console.log(response);
+        this.list_location = response;
+      console.log(this.list_location);
+      for (var item of this.list_location) {
+          // Create a DOM element for each marker.
+          const el = document.createElement("div");
+          el.style.backgroundImage =
+            "url(https://i.ibb.co/pQm0f6L/Group-51.png)";
+          el.className = "marker";
+          el.textContent = item.slot;
+          el.style.backgroundSize = "100%";
+          el.nodeValue = item.name;
+          (function (_item,_map) {
+            el.addEventListener("click", function () {
+              // Fly the map to the location.
+            var Flyto = _item.coordinates.split(',');
+            _map.flyTo({
+              center: [Flyto[0],Flyto[1]-0.003],
+              speed: 0.5,
+              zoom: 15,
+            });
+            let styles = `display: block `;
+            document.getElementById("infomation").style = styles;
+            // document.getElementById("content_image").style = 'background-image: url("'+ _item.image +'");';
+            // console.log( _item.image);
+            let url = btoa(_item.image.data.reduce((data, byte) => data + String.fromCharCode(byte), ''));
+            let base64img = "data:image/jpeg;base64," + url;
+            document.querySelector("#content_image").src = base64img;
+            document.getElementById("content_name").innerHTML = _item.name;
+            document.getElementById("content_address").innerHTML = _item.address;
+            document.getElementById("content_introduce").innerHTML = _item.introduce;
+            localStorage.setItem("Destination",_item.coordinates);
+            // Return the location of the ISS as GeoJSON.
+              // directions.setDestination(_item.coordinates); // can be address
+              
+              function toBase64(arr) {
+              //arr = new Uint8Array(arr) if it's an ArrayBuffer
+              return 
+            }
+            });
+          })(item,this.map);
+          console.log(item.coordinates.split(','));
+          // Add markers to the map.
+          new mapboxgl.Marker(el).setLngLat(item.coordinates.split(',')).addTo(this.map);
+        }
       });
+        
     },
     async createMap() {
+      
       try {
+        
         mapboxgl.accessToken = this.access_token;
         this.map = new mapboxgl.Map({
           container: "map",
@@ -124,40 +176,7 @@ export default {
 
         // this.map.addControl(locate, "bottom-right");
         // add marker
-
-        for (var item of this.list_location) {
-          // Create a DOM element for each marker.
-          const el = document.createElement("div");
-          el.style.backgroundImage =
-            "url(https://i.ibb.co/pQm0f6L/Group-51.png)";
-          el.className = "marker";
-          el.textContent = item.slot;
-          el.style.backgroundSize = "100%";
-          el.nodeValue = item.name;
-          (function (_item,_map) {
-            el.addEventListener("click", function () {
-              // Fly the map to the location.
-            console.log(_map);
-            _map.flyTo({
-              center: [_item.coordinates[0],_item.coordinates[1]-0.003],
-              speed: 0.5,
-              zoom: 15,
-            });
-            let styles = `display: block `;
-            document.getElementById("infomation").style = styles;
-            document.getElementById("content_image").style = 'background-image: url("'+ _item.image +'");';
-            document.getElementById("content_name").innerHTML = _item.name;
-            document.getElementById("content_address").innerHTML = _item.address;
-            document.getElementById("content_introduce").innerHTML = _item.introduce;
-            localStorage.setItem("Destination",_item.coordinates);
-            // Return the location of the ISS as GeoJSON.
-              // directions.setDestination(_item.coordinates); // can be address
-            });
-          })(item,this.map);
-
-          // Add markers to the map.
-          new mapboxgl.Marker(el).setLngLat(item.coordinates).addTo(this.map);
-        }
+        
         this.map.on("load", async () => {
           // locate.trigger();
           this.map.loadImage(

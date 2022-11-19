@@ -3,7 +3,7 @@ import router from '@/router/index'
 import Vue from 'vue';
 function apiAxios(method, url, params) {
 
-    const uri = 'http://192.168.1.8:3000/'
+    const uri = 'http://localhost:3000/'
 
     return new Promise((resolve, reject) => {
         axios({
