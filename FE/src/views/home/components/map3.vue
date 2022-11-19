@@ -114,11 +114,7 @@ export default {
             localStorage.setItem("Destination",_item.coordinates);
             // Return the location of the ISS as GeoJSON.
               // directions.setDestination(_item.coordinates); // can be address
-              
-              function toBase64(arr) {
-              //arr = new Uint8Array(arr) if it's an ArrayBuffer
-              return 
-            }
+            
             });
           })(item,this.map);
           console.log(item.coordinates.split(','));

@@ -10,36 +10,6 @@
           <a href="" :class="{ active: isActive(item.value) }" @click="goRouter(item.value, item.url)">{{ item.name }}</a>
         </div>
       </div>
-      <!-- <div class="header__top__img">
-					<a href="/index">
-						<img src="@/assets/logo.png" alt="Logo IF_MOBILE">
-					</a>
-				</div>
-				<div class="header__top__nav">
-					<div class="header__top__nav__items" v-for="(item, index) in categories" :key="index">
-						<a href="#" class="button" :class="{ active: isActive(item.value) }"
-							@click="goRouter(item.value, item.url)">
-							{{ item.name }}
-						</a>
-					</div>
-				</div>
-				<div class="header__top__button">
-					<a href="" @click="goToLogin()"> {{$t('BUTTON.CREATE')}}</a>
-				</div>
-				<div class="nav-menu" @click="checkDropDown()">
-					<img src="@/assets/icn_open.png" alt="" v-if="!checkdrop">
-					<img src="@/assets/icn_close.png" v-else alt="">
-				</div>
-			</div>
-			<div class="header__drop" v-if="checkdrop">
-				<ul v-for="(item, index) in categories" :key="index">
-					<li>
-						<a href="#" :class="{ active: isActive(item.value) }" @click="setActive(item.value)">
-							{{ item.name }}
-						</a>
-					</li>
-				</ul>
-			</div> -->
     </div>
   </div>
 </template>
@@ -69,14 +39,14 @@ export default {
           url: "/",
         },
         {
-          name: "Địa điểm",
+          name: "đăng ký",
           value: 0,
-          url: "/",
+          url: "/register",
         },
         {
-          name: "Điều kiện",
+          name: "Đăng Nhập",
           value: 0,
-          url: "/",
+          url: "/login",
         },
       ],
       showMobileMenu: false,
