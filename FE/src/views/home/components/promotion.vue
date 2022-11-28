@@ -5,7 +5,7 @@
   </h1>
   <div class="KM">
     <div class="KM">
-      <img src="@/assets/KM1.png"></img>
+      <img src="@/assets/KM1.png"/>
     <div class="text">
       <p>Bãi đỗ xe sân bay</p>
       <p class="linethrough">500.000VND</p>
@@ -15,7 +15,7 @@
     </div>
 
     <div class="KM">
-      <img src="@/assets/KM2.png"></img>
+      <img src="@/assets/KM2.png"/>
       <div class="text">
         <p>Bãi đỗ xe Lê Duẩn</p>
         <p class="linethrough">300.000VND</p>
@@ -25,7 +25,7 @@
     </div>
 
     <div class="KM">
-      <img src="@/assets/KM3.png"></img>
+      <img src="@/assets/KM3.png"/>
       <div class="text">
         <p>Bãi đỗ xe Bạch Đằng</p>
         <p class="linethrough">300.000VND</p>
@@ -57,7 +57,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .promotion {
-	height: 30vh;
+	//height: 30vh;
 //	background-color: #00B661;
 
 }
@@ -68,6 +68,7 @@ export default {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  text-align: center;
 }
 .KM{
   display: flex;
@@ -75,7 +76,7 @@ export default {
   align-items: stretch;
   justify-content: center;
   justify-content: space-around;
-  column-gap: 10px;
+  column-gap: 20px;
   background-color: white;
   font-family: 'Times New Roman', Times, serif;
   margin-top: 10px;

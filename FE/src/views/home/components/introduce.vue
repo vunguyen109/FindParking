@@ -15,7 +15,7 @@
     </div>
   
   
-  <img class="img" src="@/assets/banner1.png"></img>
+  <img class="img" src="@/assets/banner1.png"/>
 </div>
   </section>
 </template>

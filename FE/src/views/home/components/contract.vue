@@ -3,7 +3,7 @@
 	<p class="TD">Nếu bạn có bất kì câu hỏi nào, xin hãy liên hệ với chúng tôi !</p>
 
   <div class="img">
-    <img src="@/assets/banner2.png"></img>
+    <img src="@/assets/banner2.png"/>
   </div>
 
   <button class="btn">Liên hệ ngay</button>
@@ -28,7 +28,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .contract {
-	height: 46vh;
+	//height: 46vh;
 	//background-color: #00B661;
   display: flex;
   align-items: center;
@@ -40,7 +40,6 @@ export default {
 .img{
   width: 80%;
   margin-left: auto;
-  
   }
 .TD{
   font-size: 22px;

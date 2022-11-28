@@ -114,7 +114,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .location_list {
-	height: 50vh;
+	//height: 50vh;
 	background-color: #ffffff;
 
 }
