@@ -187,11 +187,10 @@ export default {
 .pagination a:hover:not(.active) {background-color: #ddd;}
 .box{
   margin: 10px auto;
-  width:1010px;
+  width:100%;
   height: 50px;
 }
 .container-3{
-  width: 500px;
   vertical-align:middle;
   white-space: nowrap;
   position: relative;
@@ -199,7 +198,7 @@ export default {
 }
  
 .container-3 input#search{
-  width: 1010px;
+  width: 100%;
   height: 40px;
   background: #dadada;
   border: 1px;

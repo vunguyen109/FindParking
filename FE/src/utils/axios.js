@@ -6,19 +6,13 @@ function apiAxios(method, url, params) {
     const uri = 'http://localhost:3000/'
 
     return new Promise((resolve, reject) => {
+        axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
         axios({
             method: method,
             url: uri + url,
-            data: method === 'POST' ? params : null,
+            data:  method === 'POST' ? params : null,
             params: method === 'GET' ? params : null,
-            headers: {
-                "Access-Control-Allow-Origin": "*",
-                "Access-Control-Allow-Methods": "GET, POST, PATCH, PUT, DELETE, OPTIONS",
-                "Access-Control-Allow-Headers": "Origin, Content-Type, X-Auth-Token",
-                'Content-Type': 'application/json;charset=UTF-8/multipart/form-data',
-                // 'X-Access-Token': window.localStorage.getItem('token'),
-                // 'languageCode': window.localStorage.getItem('languageCode')
-            },
+            headers: {},
             withCredentials: false,
         })
             .then(

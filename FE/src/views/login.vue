@@ -16,7 +16,7 @@
       </form>
       <p class="login-already">
         <span>Don't have an account ?</span>
-        <a href="#" class="login-login-link"> Sign Up </a>
+        <a href="/register" class="login-login-link"> Sign Up </a>
       </p>
     </div>
   
@@ -40,10 +40,12 @@ export default {
             })
               .then((response) => {
                 if(response.success) {
-                 localStorage.setItem("login", true);
+                 localStorage.setItem("account", response.result.account);
+                 localStorage.setItem("user", response.result.name);
+                 localStorage.setItem("userId", response.result.userId);
                  this.$router.push("/index");
                 }else {
-                    console.log("login false");
+                    alert("login false");
                 }
               });
     }

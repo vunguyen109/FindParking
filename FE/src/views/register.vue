@@ -8,6 +8,16 @@
       </button>
       <div class="signup-or"><span>Or</span></div>
       <form action="#" class="signup-form" autocomplete="off">
+        <div class="radio_option">
+      <label >
+        <input type="radio"  v-model="account" value="1" name="type">
+        chủ bãi đỗ
+      </label>
+      <label>
+        <input type="radio"  v-model="account" value="2" name="type">
+        người dùng
+      </label>
+      </div>
         <label for="username" class="signup-label">User name</label>
         <input type="text" id="username" class="signup-input" placeholder="User Name" v-model="username">
         <label for="passwaord" class="signup-label">Password</label>
@@ -20,7 +30,7 @@
       </form>
       <p class="signup-already">
         <span>Already have an account ?</span>
-        <a href="#" class="signup-login-link"> Sign in </a>
+        <a href="/login" class="signup-login-link"> Sign in </a>
       </p>
     </div>
  
@@ -35,21 +45,30 @@ export default {
     return {
         username: "",
         password: "",
+        account: 2,
         email: "",
         phone: "",
     };
   },
   methods: {
-    login() {
+    signup() {
         this.$api.post("users/register", {
-                userId: "",
+              userId: "",
               name: this.username,
               password: this.password,
+              account: this.account,
               email:  this.email,
               phone: this.phone,
             })
               .then((response) => {
                 console.log(response);
+                if(response.success){
+                  alert("đăng ký thành công")
+                  this.$router.push("/index");
+                }
+                else {
+                  alert("đăng ký không thành công")
+                }
               });
     }
   }

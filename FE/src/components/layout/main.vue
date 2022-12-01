@@ -1,7 +1,7 @@
 <template>
 	<div class="">
-		<header-app />
-		<router-view></router-view>
+		<header-app :key="$route.fullPath"/>
+		<router-view class="view"></router-view>
 		<footer-app />
 	</div>
 </template>
@@ -19,19 +19,20 @@ export default {
 	},
 	data() {
 		return {
-
 		};
 	},
-	computed: {
-	},
-	watch: {
-
-	},
-	methods: {
-
-		
-	},
+	
 };
 </script>
+<style lang="scss" scoped>
+.view {
+	margin-top: 80px;
+}
+@media (max-width: 960px) {
+	.view {
+	margin-top: 60px;
+}
+  }
+</style>
 
 

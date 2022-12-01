@@ -38,8 +38,11 @@ export default {
 
 }
 .img{
-  width: 80%;
-  margin-left: auto;
+  margin: 20px 10%;
+  img {
+    
+  width: 100%;
+  }
   }
 .TD{
   font-size: 22px;
@@ -57,5 +60,7 @@ export default {
   background: #00B661;
   align-items: center;
   color: white;;
+}
+@media (max-width: 380px) {
 }
 </style>

@@ -1,7 +1,10 @@
 <template>
   <div>
     <Map :mapLoad="loadMap" @checkLoad="forceRerender" :key="componentKey"></Map>
-    <Introduce></Introduce>
+    <div class="down" id="introduce">
+    <a href="#introduce"><b-icon icon="arrow-down-circle-fill" font-scale="3"></b-icon></a>
+    </div>
+    <Introduce ></Introduce>
     <Promotion></Promotion>
     <Location_list></Location_list>
     <Contract></Contract>
@@ -55,7 +58,12 @@ section {
   font-weight: 900;
 
 }
-
+.down {
+  width: 100%;
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+}
 @media screen and (max-width: 480px) {
   section {
     .ctn__main {

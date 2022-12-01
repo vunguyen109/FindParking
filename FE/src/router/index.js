@@ -6,6 +6,8 @@ import Err from '@/views/err'
 import Index from '@/views/home/index'
 import Login from '@/views/login'
 import Register from '@/views/register'
+import parkingManager from '@/views/parkingManager/index'
+import UserDetail from '@/views/userDetail'
 
 
 Vue.use(VueRouter)
@@ -31,6 +33,16 @@ const routes = [
                 path: '/register', ///path của route
                 name: 'register', // tên route
                 component: Register // component route sử dụng
+            },
+            {
+                path: '/manager', ///path của route
+                name: 'parkingManager', // tên route
+                component: parkingManager // component route sử dụng
+            },
+            {
+                path: '/user', ///path của route
+                name: 'userDetail', // tên route
+                component: UserDetail // component route sử dụng
             },
         ]
     },

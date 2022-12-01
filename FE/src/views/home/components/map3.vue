@@ -82,14 +82,13 @@ export default {
       this.$api.get("parkings").then((response) => {
         // console.log(response);
         this.list_location = response;
-      console.log(this.list_location);
       for (var item of this.list_location) {
           // Create a DOM element for each marker.
           const el = document.createElement("div");
           el.style.backgroundImage =
             "url(https://i.ibb.co/pQm0f6L/Group-51.png)";
           el.className = "marker";
-          el.textContent = item.slot;
+          el.textContent = item.currentslot;
           el.style.backgroundSize = "100%";
           el.nodeValue = item.name;
           (function (_item,_map) {
@@ -111,13 +110,13 @@ export default {
             document.getElementById("content_name").innerHTML = _item.name;
             document.getElementById("content_address").innerHTML = _item.address;
             document.getElementById("content_introduce").innerHTML = _item.introduce;
+            document.getElementById("owner_name").innerHTML = _item.ownerName;
             localStorage.setItem("Destination",_item.coordinates);
-            // Return the location of the ISS as GeoJSON.
+            // Return the location of the ISS as GeoJSON.ownerName
               // directions.setDestination(_item.coordinates); // can be address
             
             });
           })(item,this.map);
-          console.log(item.coordinates.split(','));
           // Add markers to the map.
           new mapboxgl.Marker(el).setLngLat(item.coordinates.split(',')).addTo(this.map);
         }

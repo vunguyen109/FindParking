@@ -15,11 +15,10 @@ Vue.use(BootstrapVue)
 // Optionally install the BootstrapVue icon components plugin
 Vue.use(IconsPlugin)
 
+
+
 import Axios from "axios";
 import api from "@/utils/axios";
-
-Vue.prototype.$axios = Axios;
-
 Vue.prototype.$api = api;
 import ConstPlugin from './components/util/const_plugin'
 
@@ -30,6 +29,11 @@ import VueI18n from 'vue-i18n';
 import messages from '@/config/languages/message';
 import VueLocalStorage from 'vue-localstorage'
 Vue.use(VueLocalStorage)
+
+import SmartTable from 'vuejs-smart-table'
+
+Vue.use(SmartTable)
+
 Vue.use(VueI18n);
 
 const i18n = new VueI18n({
