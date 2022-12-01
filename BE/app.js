@@ -9,6 +9,9 @@ var usersRouter = require('./routes/users');
 var parkingRouter = require('./routes/parkings');
 
 var app = express();
+var bodyParser = require("body-parser");
+app.use(bodyParser.json({limit: '200kb'}));
+
 const cors = require('cors');
 const corsOptions ={
     origin:'http://localhost:8080', 
@@ -32,6 +35,20 @@ app.use('/parkings', parkingRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+
+    // Request methods you wish to allow
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+
+    // Request headers you wish to allow
+    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type,Origin');
+    res.setHeader('Content-Type', 'application/json;charset=UTF-8/multipart/form-data'),
+
+    // Set to true if you need the website to include cookies in the requests sent
+    // to the API (e.g. in case you use sessions)
+    res.setHeader('Access-Control-Allow-Credentials', true);
+
+    // Pass to next layer of middleware
   next(createError(404));
 });
 
