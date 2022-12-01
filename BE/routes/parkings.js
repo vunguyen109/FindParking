@@ -1,13 +1,15 @@
 var express = require('express');
  var router = express.Router();
  var db = require('./../models/database'); 
- router.get('/', function(req, res, next) {
-    let sql = `SELECT * FROM parkings`;
+ 
+ router.get('/', function(req, res, next) {     
+    let sql = `SELECT parkings.*,users.name AS ownerName FROM parkings,users WHERE parkings.owner = users.userId`;
     db.query(sql, function(err, data) {
+        if (err) throw err;
         res.json(data);
     });   
  });
- router.post('/', function(req, res, next) {
+ router.post('/add', function(req, res, next) {
      //chức năng thêm mới record vào table
      //phương thức request: post
      //tiếp nhận dữ liệu gửi trong body request
@@ -17,7 +19,7 @@ var express = require('express');
     let sql = 'INSERT INTO parkings SET ?';
     db.query(sql, data, (err, d) => {
         if (err) throw err;
-        res.json({thongbao:"Đã chèn xong sách"});
+        res.json({thongbao: 'đã thêm',success: true});
     });
  });
  router.get('/:id', function(req, res, next) {
@@ -32,7 +34,8 @@ var express = require('express');
            res.json(d[0]);
         });   
  });
- router.put('/:id', function(req, res, next) {
+ router.post('/:id', function(req, res, next) {
+    req.header("Access-Control-Allow-Origin", "*");
      //chức năng cập nhật record trong table 
      //phương thức request: put
      //tiếp nhận dữ liệu gửi trong body request
@@ -40,13 +43,14 @@ var express = require('express');
      //trả về thông báo json đã cập nhật
      let data = req.body;
     let id = req.params.id;
-    let sql = 'UPDATE parkings SET ? WHERE id = ?';
+    let sql = 'UPDATE  parkings  SET  ?  WHERE id = ?';
+    console.log(req.body);
     db.query(sql, [data, id], (err, d) => {
         if (err) throw err;
-        res.json({thongbao: 'Đã cập nhật sách'});
+        res.json({thongbao: 'Đã cập nhật sách',success: true});
     });
  });
- router.delete('/:id', function(req, res) { 
+ router.post('/delete/:id', function(req, res) { 
      //chức năng xóa 1 record trong table
      //phương thức request: delete
      //tiếp nhận id trong url
@@ -56,7 +60,7 @@ var express = require('express');
     let sql = 'DELETE FROM parkings WHERE id = ?'
     db.query(sql, id , (err, d) => {
         if (err) throw err;
-        res.json({thongbao: 'Đã xóa thành công'});
+        res.json({thongbao: 'Đã xóa thành công',success: true});
     }); 
  });
  module.exports = router;
