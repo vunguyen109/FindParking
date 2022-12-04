@@ -14,7 +14,13 @@
             <div id="content_name"></div>
             <div id="content_rate">⭐⭐⭐⭐⭐</div>
             <div id="content_address"></div>
-            <b-button @click="direct" variant="success">chỉ đường</b-button>
+              <b-button @click="direct" variant="success">chỉ đường</b-button>
+              <b-button v-show="!show_order" @click="show_order = true" variant="success">đặt chỗ</b-button>
+              <div v-show="show_order" class="order_content">
+                vui lòng nhập biển số xe của bạn:
+                <input type="text" v-model="licensePlate">
+                <b-button @click="order" variant="success">đặt chỗ</b-button>
+              </div>
           </div>
         </div>
         <div id="content_introduce"></div>
@@ -65,8 +71,10 @@ export default {
       list_location: "",
       coordinates: [108.2096, 16.059945],
       load: 0,
+      licensePlate: "",
       showInfo: false,
-      isLoading: false
+      isLoading: false,
+      show_order: false,
     };
   },
 
@@ -112,6 +120,12 @@ export default {
             document.getElementById("content_introduce").innerHTML = _item.introduce;
             document.getElementById("owner_name").innerHTML = _item.ownerName;
             localStorage.setItem("Destination",_item.coordinates);
+            let order= {
+              id: _item.id,
+              slot: _item.currentslot,
+              maxslot: _item.maxslot,
+            }
+            localStorage.setItem("order", JSON.stringify(order));
             // Return the location of the ISS as GeoJSON.ownerName
               // directions.setDestination(_item.coordinates); // can be address
             
@@ -297,6 +311,39 @@ export default {
               zoom: 15,
             });
       this.close();
+    },
+    order() {
+       let order = JSON.parse(localStorage.getItem("order"));
+       let datetime = new Date().toLocaleString();
+        if(order.slot > 0 ){
+          this.$api.post("parkings/order", {
+            orderId: "",
+            userId: localStorage.getItem("userId"),
+            parkingId: order.id,
+            userName: localStorage.getItem("user"),
+            licensePlate: this.licensePlate,
+            time: datetime,
+            status: 0,
+          }).then((response) => {
+            // console.log(response);
+            if (response.success) {
+              this.$api.post("parkings/" + order.id, {
+                "currentslot": order.slot-1
+              }).then((response) => {
+                if (response.success) {
+                  alert("đặt chỗ thành công");
+                  this.direct();
+                }else {
+                  alert("đặt chỗ thất bại");
+                }
+              });
+            } else {
+              alert("đặt chỗ thất bại");
+            }
+          });
+        }else {
+          alert("bãi đỗ xe hết chỗ");
+        }
     }
   },
 };
@@ -364,6 +411,9 @@ export default {
 #content_name {
   font-size: 24px;
     font-variant: all-petite-caps;
+}
+#order_content {
+  display: none;
 }
 @media screen and (max-width: 500px) {
   #content_image {

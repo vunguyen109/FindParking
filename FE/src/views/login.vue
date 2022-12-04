@@ -2,16 +2,16 @@
   <section class="SI">
     <div class="login">
       <h1 class="login-heading">Sign in</h1>
-      <button class="login-social">
+      <!-- <button class="login-social">
         <i class="fa fa-google login-social-icon"></i>
-        <span class="login-social-text">Sign in with Google</span>
-      </button>
-      <div class="login-or"><span>Or</span></div>
+        <span class="login-social-text">Sign in with Google</span> -->
+      <!-- </button>
+      <div class="login-or"><span>Or</span></div> -->
       <form action="#" class="login-form" autocomplete="off">
         <label for="username" class="login-label">User name</label>
         <input type="text" id="usename" class="login-input" placeholder="User name" v-model="username">
         <label for="password" class="login-label">Password</label>
-        <input type="text" id="password" class="login-input" placeholder="Password" v-model="password">
+        <input type="password" id="password" class="login-input" placeholder="Password" v-model="password">
         <button class="login-submit" @click = "login">Sign In</button>
       </form>
       <p class="login-already">

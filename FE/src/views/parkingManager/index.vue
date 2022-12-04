@@ -44,19 +44,12 @@ export default {
       this.$api.get("parkings").then((response) => {
         // console.log(response);
         this.managerData.list_location = response;
-        for (
-          let index = 0;
-          index < this.managerData.list_location.length;
-          index++
-        ) {
-          let url = btoa(
-            this.managerData.list_location[index].image.data.reduce(
-              (data, byte) => data + String.fromCharCode(byte),
-              ""
+        for (let index = 0;index < this.managerData.list_location.length;index++) {
+          let url = btoa(this.managerData.list_location[index].image.data.reduce(
+              (data, byte) => data + String.fromCharCode(byte),""
             )
           );
-          this.managerData.list_location[index].image =
-            "data:image/jpeg;base64," + url;
+          this.managerData.list_location[index].image ="data:image/jpeg;base64," + url;
         }
         this.managerData.render = true;
         this.isLoading = false;

@@ -16,7 +16,8 @@
         <input type="file" @change="getImage" accept="image/*" />
         <img id="image" src="" alt="" />
         <input v-model="select.price" placeholder="price"  type="text" />
-        <input v-model="select.slot" placeholder="slot"  type="text" />
+        <input v-model="select.maxslot" placeholder="max slot"  type="text" />
+        <input v-model="select.currentslot" placeholder="current slot"  type="text" />
         <button @click="add" class="add">thêm</button>
         <button @click="back" class="add" style="background-color: white; color: #00B661;">quay lại</button>
         </div>
@@ -70,6 +71,7 @@ export default {
         coordinates: "",
         introduce: "",
         image: "",
+        imageName: "",
         price: "",
         slot: "",
       },
@@ -147,6 +149,7 @@ export default {
     getImage() {
       var preview = document.querySelector("#image");
       var file = document.querySelector("input[type=file]").files[0];
+      this.select.imageName = file.name
       var reader = new FileReader();
       reader.onloadend = function () {
         preview.src = reader.result;
@@ -163,18 +166,20 @@ export default {
       
     },
     add() {
-
-      this.select.image = document.getElementById("image").src;
-      console.log(this.select);
       this.$api.post("parkings/add", {
           id: "",
-          image: localStorage.getItem("image"),
+          image: {
+            data :localStorage.getItem("image"),
+            name : this.select.imageName,
+          },
           name: this.select.name,
           coordinates: this.select.coordinates,
           address: this.select.address,
           introduce: this.select.introduce,
           price: this.select.price,
-          slot: this.select.slot,
+          maxslot: this.select.maxslot,
+          currentslot: this.select.currentslot,
+          owner: localStorage.getItem("userId"),
         })
         .then((response) => {
           console.log(response);
