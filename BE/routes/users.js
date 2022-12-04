@@ -16,6 +16,18 @@ router.get('/:id', function(req, res, next) {
         res.json(d[0]);
      });   
 });
+router.get('/orderHistory/:id', function(req, res, next) {
+  //chức năng trả về chi tiết 1 record
+  //phương thức request: get
+  //tiếp nhận id của reord trong url
+  //lấy ra record theo id từ table
+  //trả về chi tiết record dạng json
+     let id=req.params.id;      
+     let sql = 'SELECT orders.*, parkings.price FROM ( orders INNER JOIN parkings ON orders.parkingId = parkings.id ) WHERE orders.userId = ?'    
+     db.query(sql, id, (err, d) => {
+        res.json(d);
+     });   
+});
 // router.post('/:id', function(req, res, next) {
 //    //chức năng cập nhật record trong table 
 //    //phương thức request: put
