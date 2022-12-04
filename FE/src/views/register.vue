@@ -2,11 +2,6 @@
 <section class="SU">
   <div class="signup">
       <h1 class="signup-heading">Sign up</h1>
-      <button class="signup-social">
-        <i class="fa fa-google signup-social-icon"></i>
-        <span class="signup-social-text">Sign up with Google</span>
-      </button>
-      <div class="signup-or"><span>Or</span></div>
       <form action="#" class="signup-form" autocomplete="off">
         <div class="radio_option">
       <label >
@@ -20,8 +15,8 @@
       </div>
         <label for="username" class="signup-label">User name</label>
         <input type="text" id="username" class="signup-input" placeholder="User Name" v-model="username">
-        <label for="passwaord" class="signup-label">Password</label>
-        <input type="text" id="password" class="signup-input" placeholder="Password" v-model="password">
+        <label for="password" class="signup-label">Password</label>
+        <input type="password" id="password" class="signup-input" placeholder="Password" v-model="password">
         <label for="email" class="signup-label">Email</label>
         <input type="email" id="email" class="signup-input" placeholder="Email" v-model="email">
         <label for="phone" class="signup-label">Phone</label>
@@ -59,6 +54,7 @@ export default {
               account: this.account,
               email:  this.email,
               phone: this.phone,
+              active: 0,
             })
               .then((response) => {
                 console.log(response);
@@ -211,5 +207,14 @@ export default {
 .signup-login-link {
   color: #2979ff;
   text-decoration: none;
+}
+.radio_option{
+  display: flex;
+    justify-content: space-evenly;
+}
+@media screen and (max-width: 500px) {
+  .signup-input {
+    padding: 10px 25px;
+}
 }
 </style>

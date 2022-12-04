@@ -42,7 +42,7 @@ export default {
   methods: {
     init() {
       this.$api.get("parkings").then((response) => {
-        // console.log(response);
+        console.log(response);
         this.managerData.list_location = response;
         for (let index = 0;index < this.managerData.list_location.length;index++) {
           let url = btoa(this.managerData.list_location[index].image.data.reduce(

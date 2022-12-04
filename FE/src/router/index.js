@@ -7,7 +7,8 @@ import Index from '@/views/home/index'
 import Login from '@/views/login'
 import Register from '@/views/register'
 import parkingManager from '@/views/parkingManager/index'
-import UserDetail from '@/views/userDetail'
+import UserDetail from '@/views/userManager/userDetail'
+import UserManager from '@/views/userManager/userManager'
 
 
 Vue.use(VueRouter)
@@ -43,6 +44,11 @@ const routes = [
                 path: '/user', ///path của route
                 name: 'userDetail', // tên route
                 component: UserDetail // component route sử dụng
+            },
+            {
+                path: '/userManager', ///path của route
+                name: 'userManager', // tên route
+                component: UserManager // component route sử dụng
             },
         ]
     },

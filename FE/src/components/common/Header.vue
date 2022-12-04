@@ -24,8 +24,10 @@
           <b-icon icon="person-circle" font-scale="1"></b-icon> {{user}}
           <div class="hover_menu">
             <div>
-            <span href="" @click="goRouter(4,'/manager')" ><b-icon icon="kanban-fill" font-scale="1"></b-icon> quản lý</span>
+            <span href="" @click="goRouter(4,'/manager')" ><b-icon icon="kanban-fill" font-scale="1"></b-icon> quản lý bãi đỗ</span>
+
             <span href="" @click="goRouter(4,'/user')"><b-icon icon="person-lines-fill" font-scale="1"></b-icon> tài khoản</span>
+            <span v-show="(account == 0)"  @click="goRouter(5,'/userManager')"><b-icon icon="person-lines-fill" font-scale="1"></b-icon> quản lý tài khoản</span>
             <span href="" @click="logout"><b-icon icon="box-arrow-right" font-scale="1"></b-icon> đăng xuất</span>
             </div>
           </div>
@@ -34,10 +36,14 @@
           <b-icon icon="list" font-scale="2"></b-icon>
           <div class="hover_menu fix">
             <div>
-              <span><b-icon icon="person-circle" font-scale="1"></b-icon> {{user}}</span>
-            <span href="" @click="goRouter(4,'/manager')" ><b-icon icon="kanban-fill" font-scale="1"></b-icon> quản lý</span>
-            <span href="" @click="goRouter(4,'/user')"><b-icon icon="person-lines-fill" font-scale="1"></b-icon> tài khoản</span>
-            <span href="" @click="logout"><b-icon icon="box-arrow-right" font-scale="1"></b-icon> đăng xuất</span>
+              <span>{{user}}</span>
+            <span v-show="login"  href="" @click="goRouter(4,'/manager')" ><b-icon icon="kanban-fill" font-scale="1"></b-icon> quản lý bãi đỗ</span>
+            <span v-show="login"  @click="goRouter(4,'/user')"><b-icon icon="person-lines-fill" font-scale="1"></b-icon> tài khoản</span>
+            <span v-show="(account == 0)"  @click="goRouter(5,'/userManager')"><b-icon icon="person-lines-fill" font-scale="1"></b-icon> quản lý tài khoản</span>
+            <span @click="goRouter(1,'/index')"><b-icon icon="camera" font-scale="1"></b-icon> đặt chỗ</span>
+            <span v-show="login"  @click="logout"><b-icon icon="box-arrow-right" font-scale="1"></b-icon> đăng xuất</span>
+            <span v-show="!login"  @click="goRouter(3,'/login')"><b-icon icon="box-arrow-in-left" font-scale="1"></b-icon> đăng nhập</span>
+            <span  @click="goRouter(2,'/register')"><b-icon icon="person-plus-fill" font-scale="1"></b-icon> đăng ký</span>
             </div>
           </div>
         </div>
@@ -57,6 +63,7 @@ export default {
 	  login: false,
       showMobileMenu: false,
       user: "",
+      account: 99,
     };
   },
   created() {
@@ -67,7 +74,8 @@ export default {
     checkLogin: function () {
       if (this.$localStorage.get("account")) {
         this.login = true;
-        this.user = this.$localStorage.get("user")
+        this.user = this.$localStorage.get("user");
+        this.account = this.$localStorage.get("account");
       } else {
         this.login = false;
       }
@@ -186,10 +194,10 @@ export default {
     display: none;
   }
   .mobile {
-    display: block;
+    display: block!important;
   }
   .logo {
-    display: block;
+    display: block !important;
   }
 }
   }

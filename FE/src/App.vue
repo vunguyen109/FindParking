@@ -26,7 +26,6 @@ html, body {
 }
 .mapboxgl-canvas {
 	position: unset !important;
-	height: 80vh !important;
 }
 .marker {
 	top: -25px !important;

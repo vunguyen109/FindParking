@@ -60,7 +60,7 @@ section {
 }
 .down {
   width: 100%;
-  margin-top: 20px;
+  margin-top: 4vh;
   display: flex;
   justify-content: center;
 }

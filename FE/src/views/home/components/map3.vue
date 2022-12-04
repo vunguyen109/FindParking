@@ -12,8 +12,8 @@
           <img id="content_image"></img>
           <div class="content_info">
             <div id="content_name"></div>
-            <div id="content_rate">⭐⭐⭐⭐⭐</div>
-            <div id="content_address"></div>
+            <div id="content_rate">Đánh giá :⭐⭐⭐⭐⭐</div>
+            <div id="content_address">Đại chỉ : </div>
               <b-button @click="direct" variant="success">chỉ đường</b-button>
               <b-button v-show="!show_order" @click="show_order = true" variant="success">đặt chỗ</b-button>
               <div v-show="show_order" class="order_content">
@@ -26,7 +26,7 @@
         <div id="content_introduce"></div>
         <div class="owner">
           <div id="owner_image"></div>
-          <div id="owner_name">owner_name</div>
+          <div id="owner_name">Chủ xe : </div>
         </div>
         <div class="reviews"></div>
       </div>
@@ -88,7 +88,7 @@ export default {
   methods: {
     callApi() {
       this.$api.get("parkings").then((response) => {
-        // console.log(response);
+        console.log(response);
         this.list_location = response;
       for (var item of this.list_location) {
           // Create a DOM element for each marker.
@@ -116,9 +116,9 @@ export default {
             let base64img = "data:image/jpeg;base64," + url;
             document.querySelector("#content_image").src = base64img;
             document.getElementById("content_name").innerHTML = _item.name;
-            document.getElementById("content_address").innerHTML = _item.address;
-            document.getElementById("content_introduce").innerHTML = _item.introduce;
-            document.getElementById("owner_name").innerHTML = _item.ownerName;
+            document.getElementById("content_address").innerHTML = "Địa chỉ : "+_item.address;
+            document.getElementById("content_introduce").innerHTML ="Mô tả : "+ _item.introduce;
+            document.getElementById("owner_name").innerHTML ="Chủ sở hữu: "+ _item.ownerName;
             localStorage.setItem("Destination",_item.coordinates);
             let order= {
               id: _item.id,
@@ -357,8 +357,10 @@ export default {
 
 .map-holder {
   width: 100%;
-  height: 80vh;
-  background-color: aqua;
+  height: 75vh;
+}
+#map {
+  height: 75vh;
 }
 .geocoder {
   width: 50%;
@@ -374,15 +376,14 @@ export default {
 }
 #infomation {
   width: 80%;
-  height: 50vh;
   padding: 30px;
   position: absolute;
   z-index: 2;
-  bottom: 10vh;
+  top: 410px;
   background-color: rgb(255, 255, 255);
   display: none;
   border-radius: 5px;
-
+  box-shadow: 0px 1px 20px;
 }
 .info {
   display: flex;
@@ -412,8 +413,23 @@ export default {
   font-size: 24px;
     font-variant: all-petite-caps;
 }
-#order_content {
-  display: none;
+.order_content input {
+    width: 100%;
+}
+@media screen and (max-width: 600px) {
+  .info{
+    flex-direction: column;
+}
+#content_image[data-v-4f07a0cc] {
+    width: 100%;
+    margin-right: 0;
+}
+.content_info {
+    width: 100%;
+}
+#infimation {
+  top: 350px;
+}
 }
 @media screen and (max-width: 500px) {
   #content_image {

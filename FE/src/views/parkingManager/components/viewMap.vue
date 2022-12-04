@@ -22,6 +22,8 @@
             <td>{{ row.price }} VND</td>
             <td>{{ row.currentslot }}/{{ row.maxslot }}</td>
             <td>
+              <b-icon class="icon" @click="show_list(row.id)" icon="card-list" variant="primary"
+                font-scale="2"></b-icon>
               <b-icon class="icon" @click="show(row)" icon="pencil-square" variant="primary" font-scale="2"></b-icon>
               <b-icon class="icon" @click="remove(row.id)" icon="x-square-fill" variant="danger"
                 font-scale="2"></b-icon>
@@ -38,7 +40,7 @@
         @totalPagesChanged="totalPages = $event" class="table">
         <thead slot="head">
         </thead>
-        <tbody slot="body" slot-scope="{ displayData }">
+        <tbody class="table-body" slot="body" slot-scope="{ displayData }">
           <label v-for="row in displayData" :key="row.guid">
             <tr>
               <th>tên bãi đỗ xe</th>
@@ -67,8 +69,10 @@
             <tr>
               <th>thao tác</th>
               <td>
-                <b-icon class="icon" @click="show_list(row.id)" icon="card-list" variant="primary" font-scale="2.3"></b-icon>
-                <b-icon class="icon" @click="show(row)" icon="pencil-square" variant="primary" font-scale="2.1"></b-icon>
+                <b-icon class="icon" @click="show_list(row.id)" icon="card-list" variant="primary"
+                  font-scale="2.3"></b-icon>
+                <b-icon class="icon" @click="show(row)" icon="pencil-square" variant="primary"
+                  font-scale="2.1"></b-icon>
                 <b-icon class="icon" @click="remove(row.id)" icon="x-square-fill" variant="danger" font-scale="2">
                 </b-icon>
               </td>
@@ -81,6 +85,7 @@
       <smart-pagination class="pagination" :currentPage.sync="currentPage" :totalPages="totalPages" />
     </div>
     <div class="popup" v-show="show_popup">
+      <h1>Thông tin bãi đỗ xe</h1>
       <b-icon class="close" @click="show_popup = false" icon="x-lg" font-scale="2"></b-icon>
       <input v-model="select.name" type="text" />
       <input v-model="select.address" type="text" />
@@ -96,8 +101,9 @@
       <button @click="update">change</button>
     </div>
     <div class="popup" v-if="show_list_popup">
+      <h1>Danh sách đặt chỗ</h1>
       <b-icon class="close" @click="show_list_popup = false" icon="x-lg" font-scale="2"></b-icon>
-      <div class="">
+      <div class="pc_view">
         <table class="table">
           <thead slot="head">
             <th>tên chủ xe</th>
@@ -105,23 +111,55 @@
             <th>thời gian đặt</th>
             <th>xác nhận</th>
           </thead>
-          <tbody >
-            <tr v-for="row in list_order" :key="row.orderId" >
+          <tbody>
+            <tr class="child_popup" v-for="row in list_order" :key="row.orderId">
               <td>{{ row.userName }}</td>
               <td>{{ row.licensePlate }}</td>
               <td>{{ row.time }}</td>
-              <label class="switch">
-                <input type="checkbox" v-model="order_status" @change="change_status(row.orderId)">
-                <span class="slider round"></span>
-              </label>
+              <td><label class="switch">
+                  <input type="checkbox" v-model="order_status" @change="change_status(row.orderId)">
+                  <span class="slider round"></span>
+                </label>
+              </td>
+
             </tr>
           </tbody>
         </table>
       </div>
+      <div class="mobile_view">
+        <table class="table">
+          <thead slot="head">
+          </thead>
+          <tbody>
+            <label v-for="row in list_order" :key="row.orderId">
+              <tr>
+                <th>tên chủ xe</th>
+                <td class="child_popup">{{ row.userName }}</td>
+              </tr>
+              <tr>
+                <th>biển số xe</th>
+                <td class="child_popup">{{ row.licensePlate }}</td>
+              </tr>
+              <tr>
+                <th>thời gian đặt</th>
+                <td class="child_popup">{{ row.time }}</td>
+              </tr>
+              <tr>
+                <th>xác nhận</th>
+                <td class="child_popup"><label class="switch">
+                    <input type="checkbox" v-model="order_status" @change="change_status(row.orderId)">
+                    <span class="slider round"></span>
+                  </label>
+                </td>
+              </tr>
+            </label>
+          </tbody>
+        </table>
+      </div>
     </div>
-      <button class="add" @click="add">thêm bãi đỗ xe</button>
+    <button class="add" @click="add">thêm bãi đỗ xe</button>
 
-    </div>
+  </div>
 </template>
 
 <script>
@@ -161,7 +199,6 @@ export default {
     this.init();
     this.account = localStorage.getItem("account")
     this.userId = localStorage.getItem("userId")
-    console.log(this.account + ":" + this.userId);
   },
   computed: {
     rows() {
@@ -172,7 +209,6 @@ export default {
     init() { },
 
     remove(id) {
-      alert("parkings/" + id);
       this.$api.post("parkings/delete/" + id).then((response) => {
         // console.log(response);
         if (response.success) {
@@ -254,7 +290,6 @@ export default {
     },
     decreaseValue() {
       if (this.select.slot > 0) {
-        console.log("check");
         this.select.slot--;
       }
     },
@@ -264,22 +299,21 @@ export default {
       }
     },
     show_list(id) {
-      this.$api.get("parkings/order/"+id).then((response) => {
+      this.$api.get("parkings/order/" + id).then((response) => {
         this.list_order = response;
-        console.log(this.list_order);
         this.show_list_popup = true;
-    });
+      });
     },
     change_status(id) {
-      this.$api.post("parkings/confirmOrder/"+id,{
-        status : this.order_status ? 1 : 0 ,
+      this.$api.post("parkings/confirmOrder/" + id, {
+        status: this.order_status ? 1 : 0,
       }).then((response) => {
         if (response.success) {
-            alert("cập nhật thành công");
-          } else {
-            alert("cập nhật thất bại");
-          }
-    });
+          alert("cập nhật thành công");
+        } else {
+          alert("cập nhật thất bại");
+        }
+      });
     }
   }
 };
@@ -299,7 +333,7 @@ h1 {
 }
 
 .mobile_view {
-  display: none;
+  display: none !important;
 }
 
 .image {
@@ -319,6 +353,7 @@ h1 {
   row-gap: 5px;
   border-radius: 5px;
   z-index: 3;
+  box-shadow: 0px 1px 20px;
 
   div {
     display: flex;
@@ -334,6 +369,10 @@ h1 {
     border-radius: 5px;
     height: 40px;
   }
+
+  .child_popup {
+    background-color: #fff;
+  }
 }
 
 .table {
@@ -345,6 +384,7 @@ h1 {
     height: 54px;
     font-weight: 600;
     background-color: #00B661;
+    border: 1px solid #fff;
   }
 
   tr {
@@ -378,6 +418,7 @@ h1 {
 
 #image {
   width: 200px;
+  margin: auto;
 }
 
 .close {
@@ -459,11 +500,28 @@ input:checked+.slider:before {
 
 @media screen and (max-width: 850px) {
   .pc_view {
-    display: none;
+    display: none !important;
   }
 
   .mobile_view {
-    display: block;
+    display: block !important;
+
+    .table-body {
+      label {
+        width: 100%;
+
+        tr {
+          width: 100%;
+
+          th{
+            width: 18%;
+          }
+          td {
+            width: 70%;
+          }
+        }
+      }
+    }
   }
 }
 </style>

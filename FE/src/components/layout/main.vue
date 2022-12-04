@@ -26,7 +26,9 @@ export default {
 </script>
 <style lang="scss" scoped>
 .view {
-	margin-top: 80px;
+	max-width: 1200px;
+    margin: 0 auto;
+	margin-top: 100px;
 }
 @media (max-width: 960px) {
 	.view {

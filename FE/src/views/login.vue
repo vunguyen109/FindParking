@@ -39,13 +39,13 @@ export default {
               password: this.password,
             })
               .then((response) => {
-                if(response.success) {
+                if(response.success && response.result.active == 1) {
                  localStorage.setItem("account", response.result.account);
                  localStorage.setItem("user", response.result.name);
                  localStorage.setItem("userId", response.result.userId);
                  this.$router.push("/index");
                 }else {
-                    alert("login false");
+                    alert("Đăng nhập thất bại");
                 }
               });
     }

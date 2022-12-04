@@ -6,7 +6,13 @@
       <div class="map-holder">
         
     <div id="geocoder" class="geocoder"></div>
-        <div id="map"></div>
+        <div class="container_map">
+          <div id="map"></div>
+        </div>
+        <div class="suggestions">
+          kéo thả định vị <img src="@/assets/marker.jpg" alt=""> tới vị trí bãi đỗ xe của bạn 
+          hặc tìm kiếm trên tranh tìm kiếm. <br>Bấm <img src="@/assets/location.jpg" alt=""> để biết vị trí của bạn (có thể sai lệch trên lap top hặc máy tính để bàn)
+        </div>
       </div>
       <div class="info">
         <div class="data">
@@ -21,11 +27,6 @@
         <button @click="add" class="add">thêm</button>
         <button @click="back" class="add" style="background-color: white; color: #00B661;">quay lại</button>
         </div>
-        <div class="suggestions">
-          kéo thả định vị <img src="@/assets/marker.jpg" alt=""> tới vị trí bãi đỗ xe của bạn 
-          hặc tìm kiếm trên tranh tìm kiếm. <br>Bấm <img src="@/assets/location.jpg" alt=""> để biết vị trí của bạn (có thể sai lệch trên lap top hặc máy tính để bàn)
-        </div>
-
       </div>
     </div>
   </div>
@@ -182,7 +183,11 @@ export default {
           owner: localStorage.getItem("userId"),
         })
         .then((response) => {
-          console.log(response);
+          if(response.success) {
+                  location.reload();
+                }else {
+                    alert("thêm thất bại ! \n bạn đã kéo thả địa điểm hay điền đủ thông tin chưa ?");
+                }
         });
     },
     back () {
@@ -193,6 +198,19 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+
+@media screen and (max-width: 600px) {
+  .flex {
+    flex-direction: column;
+  }
+  .map-holder {
+    width: 100% !important;
+  }
+  .info {
+  width: 100% !important;
+  }
+  
+}
 .flex {
   display: flex;
   justify-content: space-around;
@@ -203,13 +221,26 @@ h1 {
 }
 .map-holder {
   width: 60%;
-  height: 80vh;
-  background-color: aqua;
+  // height: 444px;
   .geocoder {
     position: absolute;
     width: 55%;
     border-radius: 5px;
     top: 100px;
+  }
+  .container_map {
+    height: 444px;
+  }
+  #map {
+    height: 444px;
+  }
+  .suggestions {
+    color: rgb(0, 0, 0);
+    font-size: 20px;
+    font-weight: 700;
+    margin-top: 40px;
+    text-align: center;
+    margin-bottom: 20px;
   }
 }
 .info {
@@ -221,6 +252,10 @@ h1 {
   display: flex;
   flex-direction: column;
   row-gap: 5px;
+  img {
+    max-width: 260px;
+    margin: auto;
+  }
     input {
     border-radius: 5px;
     height: 40px;
@@ -236,13 +271,5 @@ h1 {
   border-radius: 5px;
   }
 }
-  .suggestions {
-    color: white;
-    font-size: 20px;
-    font-weight: 700;
-    margin-top: 40px;
-    text-align: center;
-  }
-  
 }
 </style>
