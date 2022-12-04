@@ -16,21 +16,21 @@ router.get('/:id', function(req, res, next) {
         res.json(d[0]);
      });   
 });
-router.post('/:id', function(req, res, next) {
-   //chức năng cập nhật record trong table 
-   //phương thức request: put
-   //tiếp nhận dữ liệu gửi trong body request
-   //thực hiện cập nhật record vào table 
-   //trả về thông báo json đã cập nhật
-   let data = req.body;
-  let id = req.params.id;
-  let sql = 'UPDATE  users  SET  ?  WHERE userId = ?';
-  console.log(req.body);
-  db.query(sql, [data, id], (err, d) => {
-      if (err) throw err;
-      res.json({thongbao: 'Đã cập nhật thông tin',success: true});
-  });
-});
+// router.post('/:id', function(req, res, next) {
+//    //chức năng cập nhật record trong table 
+//    //phương thức request: put
+//    //tiếp nhận dữ liệu gửi trong body request
+//    //thực hiện cập nhật record vào table 
+//    //trả về thông báo json đã cập nhật
+//    let data = req.body;
+//   let id = req.params.id;
+//   let sql = 'UPDATE  users  SET  ?  WHERE userId = ?';
+//   console.log(req.body);
+//   db.query(sql, [data, id], (err, d) => {
+//       if (err) throw err;
+//       res.json({thongbao: 'Đã cập nhật thông tin',success: true});
+//   });
+// });
 router.post('/login', function(req, res, next) {
   //chức năng thêm mới record vào table
   //phương thức request: post
