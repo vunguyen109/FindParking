@@ -9,8 +9,10 @@ var usersRouter = require('./routes/users');
 var parkingRouter = require('./routes/parkings');
 
 var app = express();
-var bodyParser = require("body-parser");
-app.use(bodyParser.json({limit: '200kb'}));
+
+var bodyParser = require('body-parser');
+app.use(bodyParser.json({limit: '50mb'}));
+app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
 
 const cors = require('cors');
 const corsOptions ={

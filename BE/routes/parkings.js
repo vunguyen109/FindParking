@@ -7,24 +7,30 @@ var express = require('express');
     
     db.query(sql, function(err, data) {
         if (err) throw err;
-        
+        global.test = "";
+        let finalData = data;
             for (let index = 0; index < data.length; index++) {
                 const element = data[index];
-                var getdata = new Promise(function(resolve, reject) {
-                    var returnValue = data;
-                    require("fs").readFile(element.image, function(err, data) {
-                        returnValue[index].image = data;
-                        resolve(returnValue);
+                function getdata() {
+                    return new  Promise(function(resolve, reject) {
+                        var returnValue;
+                        require("fs").readFile(element.image, function(err, data) {
+                            returnValue = data;
+                            resolve(returnValue);
+                        });
+                        
                     });
-                    
-                });
-                getdata.then(function(returnValue) {
-                    if(index ==  data.length -1 ) {
-                        res.json(returnValue);
+                }
+                getdata().then(function(returnValue) {
+                    finalData[index].image = returnValue;
+                     setTimeout(() => {
+                    if(index ==  finalData.length -1 ) {
+                        res.json(finalData);
                     }
+                }, 1000);
                 });
             }
-        
+        console.log(global.test);
     });   
  });
  router.get('/order/:id', function(req, res, next) {
