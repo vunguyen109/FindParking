@@ -37,7 +37,7 @@
           <div class="hover_menu fix">
             <div>
               <span>{{user}}</span>
-            <span v-show="login"  href="" @click="goRouter(4,'/manager')" ><b-icon icon="kanban-fill" font-scale="1"></b-icon> quản lý bãi đỗ</span>
+            <span v-show="login &&(account == 0||account == 1)"  href="" @click="goRouter(4,'/manager')" ><b-icon icon="kanban-fill" font-scale="1"></b-icon> quản lý bãi đỗ</span>
             <span v-show="login"  @click="goRouter(4,'/user')"><b-icon icon="person-lines-fill" font-scale="1"></b-icon> tài khoản</span>
             <span v-show="(account == 0)"  @click="goRouter(5,'/userManager')"><b-icon icon="person-lines-fill" font-scale="1"></b-icon> quản lý tài khoản</span>
             <span @click="goRouter(1,'/index')"><b-icon icon="camera" font-scale="1"></b-icon> đặt chỗ</span>
@@ -92,6 +92,7 @@ export default {
     logout () {
       this.$localStorage.remove("account");
       this.$localStorage.remove("user");
+      this.$localStorage.remove("userId");
       location.reload();
     }
   },

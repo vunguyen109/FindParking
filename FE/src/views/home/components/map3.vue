@@ -15,7 +15,7 @@
             <div id="content_rate">Đánh giá :⭐⭐⭐⭐⭐</div>
             <div id="content_address">Đại chỉ : </div>
               <b-button @click="direct" variant="success">chỉ đường</b-button>
-              <b-button v-show="!show_order" @click="show_order = true" variant="success">đặt chỗ</b-button>
+              <b-button v-show="!show_order" @click="checkLogin" variant="success">đặt chỗ</b-button>
               <div v-show="show_order" class="order_content">
                 vui lòng nhập biển số xe của bạn:
                 <input type="text" v-model="licensePlate">
@@ -344,6 +344,14 @@ export default {
         }else {
           alert("bãi đỗ xe hết chỗ");
         }
+    },
+    checkLogin() {
+      if(localStorage.getItem("userId") == null ){
+        this.$router.push("/login");
+      }
+      else {
+        this.show_order = true
+      }
     }
   },
 };

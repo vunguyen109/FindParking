@@ -4,10 +4,13 @@
 			<div class="p-footer">
 				<div class="p-footer__container">
 					<div class="p-footer__container__list">
-						<a class="p-footer__container__list-1" href="#">{{ $t('MENU.TOP') }}</a>
-						<a class="p-footer__container__list-2" href="#">{{ $t("MENU.SIM_SERVICE") }}</a>
-						<a class="p-footer__container__list-2" href="#">{{ $t("MENU.CAMPAIGN") }}</a>
-						<a class="p-footer__container__list-2" href="#">{{ $t("MENU.RATE_PLAN") }}</a>
+						<span class="p-footer__container__list-2"  v-show="login &&(account == 0||account == 1)"  href="" @click="goRouter(4,'/manager')" ><b-icon icon="kanban-fill" font-scale="1"></b-icon> quản lý bãi đỗ</span>
+            <span  class="p-footer__container__list-2"  v-show="login"  @click="goRouter(4,'/user')"><b-icon icon="person-lines-fill" font-scale="1"></b-icon> tài khoản</span>
+            <span class="p-footer__container__list-2"  v-show="(account == 0)"  @click="goRouter(5,'/userManager')"><b-icon icon="person-lines-fill" font-scale="1"></b-icon> quản lý tài khoản</span>
+            <span class="p-footer__container__list-2"  @click="goRouter(1,'/index')"><b-icon icon="camera" font-scale="1"></b-icon> đặt chỗ</span>
+            <span class="p-footer__container__list-2"  v-show="login"  @click="logout"><b-icon icon="box-arrow-right" font-scale="1"></b-icon> đăng xuất</span>
+            <span class="p-footer__container__list-2"  v-show="!login"  @click="goRouter(3,'/login')"><b-icon icon="box-arrow-in-left" font-scale="1"></b-icon> đăng nhập</span>
+            <span class="p-footer__container__list-2"   @click="goRouter(2,'/register')"><b-icon icon="person-plus-fill" font-scale="1"></b-icon> đăng ký</span>
 					</div>
 
 					<div class="p-footer__container__icon">
@@ -35,7 +38,7 @@
 				<div class="p-footer__under">
 					<div class="p-footer__under-logo">
 						<a href="#">
-							<img src="@/assets/logo_footer.png" alt="Logo IF Mobile">
+							<h1>VHParking</h1>
 						</a>
 					</div>
 				</div>
